@@ -12,6 +12,7 @@ var
 sdist
 develop-eggs
 .installed.cfg
+MANIFEST
 
 # Installer logs
 pip-log.txt
@@ -28,3 +29,5 @@ pip-log.txt
 
 #vim
 *.swp
+
+.DS_Store

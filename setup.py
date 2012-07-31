@@ -10,7 +10,7 @@ if __name__ == '__main__':
         author       = 'Alexander Glyzov',
         author_email = 'bonoba@gmail.com',
         url          = 'https://github.com/aglyzov/zone53',
-        packages     = ['zone53'],
+        py_modules   = ['zone53'],
         requires     = ['boto (>= 2.0)']
     )
 
