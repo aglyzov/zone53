@@ -1,6 +1,7 @@
 zone53
 ======
-**zone53** is a convenient Python API to manage Amazon's DNS web service
+[zone53](https://github.com/aglyzov/zone53) is a convenient Python API
+to manage Amazon's DNS web service
 [route53](http://aws.amazon.com/route53/).
 Essentially, it is a thin layer on top of
 [boto.route53](http://boto.readthedocs.org/en/latest/ref/route53.html)
