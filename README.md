@@ -9,11 +9,15 @@ providing Zone and Record classes.
 How to install
 --------------
 ~~~sh
-# via pip (recommended)
-pip install boto>=2 git+https://github.com/aglyzov/zone53.git
+# using pip (recommended)
+pip install zone53
 ~~~
 ~~~sh
-# or via setup.py (this assumes you have downloaded the sources)
+# or using pip from the git repo
+pip install git+https://github.com/aglyzov/zone53.git
+~~~
+~~~sh
+# or using setup.py (assuming you downloaded the sources)
 python setup.py install
 ~~~
 
