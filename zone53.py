@@ -1,11 +1,13 @@
 # vim: fileencoding=utf-8 et ts=4 sts=4 sw=4 tw=0 fdm=marker fmr=#{,#}
 
-__version__    = '0.1'
+__version__    = '0.2'
 __author__     = 'Alexander Glyzov'
 __maintainer__ = 'Alexander Glyzov'
 __email__      = 'bonoba@gmail.com'
 
 __all__ = ['Zone', 'Record']
+
+from functools import partial
 
 from boto                import connect_route53
 from boto.route53.record import ResourceRecordSets
@@ -16,7 +18,7 @@ class Record(object):  #{
     def __init__(self, name, value, type='A', ttl=300, weight=None, id=None, zone=None):
         if zone:
             assert isinstance(zone, Zone)
-            fqdn = zone.fqdn
+            fqdn = partial( zone.fqdn, trailing_dot=True )
         else:
             fqdn = lambda h: h if h.endswith('.') else h+'.'
 
@@ -109,8 +111,11 @@ class Zone(object):  #{
     def __repr__(self):
         return '<Zone: %s, %s>' % (self.name, self.id)
 
-    def fqdn(self, host=''):
-        """ Returns a fully qualified domain name for the argument """
+    def fqdn(self, host='', trailing_dot=False):
+        """ Returns a fully qualified domain name for the argument
+
+            dot=<bool> - append or remove trailing dot
+        """
         if not host.endswith('.'):
             if host.endswith( self.name[:-1] ):
                 host += '.'
@@ -118,6 +123,11 @@ class Zone(object):  #{
                 host += '.%s' % self.name
             else:
                 host = self.name
+
+        host = host.rstrip('.')
+        if trailing_dot:
+            host += '.'
+
         return host
 
     def add_record(self, record, comment=''):
@@ -212,7 +222,7 @@ class Zone(object):  #{
         """Get a list of this zone records (optionally filtered)"""
         records = []
         if name and type != 'PTR':
-            name = self.fqdn(name)
+            name = self.fqdn(name, trailing_dot=True)
 
         for boto_record in self.conn.get_all_rrsets(self.id):
             record = Record.from_boto_record( boto_record, zone=self )
