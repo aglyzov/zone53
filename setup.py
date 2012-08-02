@@ -5,7 +5,7 @@ from distutils.core import setup
 if __name__ == '__main__':
     setup(
         name         = 'zone53',
-        version      = '0.1',
+        version      = '0.2',
         description  = 'A convenient Python interface to AWS route53 on top of Boto',
         author       = 'Alexander Glyzov',
         author_email = 'bonoba@gmail.com',
