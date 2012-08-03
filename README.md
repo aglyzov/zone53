@@ -59,11 +59,19 @@ zones = Zone.get_all()
 # getting an existing zone by name
 zone = Zone.get('example.com')
 
-# constructing a FQDN for a name
+# constructing an FQDN for a name
 zone.fqdn() == 'example.com'
 zone.fqdn('test') == 'test.example.com'
 zone.fqdn('test.example.com') == 'test.example.com'
 zone.fqdn('test.example.com', trailing_dot=True) == 'test.example.com.'
+
+# stripping off the domain
+zone.short() == ''
+zone.short('example.com') == ''
+zone.short('.example.com.') == ''
+zone.short('test') == 'test'
+zone.short('test.example.com') == 'test'
+zone.short('abc.test.example.com.') == 'abc.test'
 
 # fetching all records
 records = zone.get_records()

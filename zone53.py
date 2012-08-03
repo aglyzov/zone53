@@ -1,6 +1,6 @@
 # vim: fileencoding=utf-8 et ts=4 sts=4 sw=4 tw=0 fdm=marker fmr=#{,#}
 
-__version__    = '0.3.2'
+__version__    = '0.3.3'
 __author__     = 'Alexander Glyzov'
 __maintainer__ = 'Alexander Glyzov'
 __email__      = 'bonoba@gmail.com'
@@ -134,7 +134,7 @@ class Zone(object):  #{
     def fqdn(self, host='', trailing_dot=False):
         """ Returns a fully qualified domain name for the argument
 
-            dot=<bool> - append or remove trailing dot
+            trailing_dot=<bool> - enforce a presence of trailing dot
         """
         if not host.endswith('.'):
             if host.endswith( self.name[:-1] ):
@@ -147,6 +147,18 @@ class Zone(object):  #{
         host = host.rstrip('.')
         if trailing_dot:
             host += '.'
+
+        return host
+
+    def short(self, host=''):
+        """ Returns a short name with the domain name stripped off
+        """
+        host   = str(host).rstrip('.')
+        domain = self.name.rstrip('.')
+        if host == domain:
+            host = ''
+        elif host.endswith('.'+domain):
+            host = host[:-len(domain)-1]
 
         return host
 
