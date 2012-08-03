@@ -16,7 +16,7 @@ providing Zone and Record classes.
 if __name__ == '__main__':
     setup(
         name             = 'zone53',
-        version          = '0.3',
+        version          = '0.3.1',
         description      = 'A convenient Python API to manage AWS route53 (requires boto)',
         long_description = DESCRIPTION,
         author           = 'Alexander Glyzov',
