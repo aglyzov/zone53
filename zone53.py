@@ -1,6 +1,6 @@
 # vim: fileencoding=utf-8 et ts=4 sts=4 sw=4 tw=0 fdm=marker fmr=#{,#}
 
-__version__    = '0.3.1'
+__version__    = '0.3.2'
 __author__     = 'Alexander Glyzov'
 __maintainer__ = 'Alexander Glyzov'
 __email__      = 'bonoba@gmail.com'
@@ -13,6 +13,13 @@ from functools import partial
 from boto                import connect_route53
 from boto.route53.record import ResourceRecordSets
 
+
+def norm_weight( weight ):  #{
+    if weight:
+        try:    weight = max(int(weight), 0)
+        except: weight = None
+    return weight or None
+#}
 
 class Record(object):  #{
 
@@ -42,7 +49,7 @@ class Record(object):  #{
         self.name   = norm_host( name )
         self.value  = map(norm_value, value)
         self.ttl    = ttl
-        self.weight = weight
+        self.weight = norm_weight( weight )
         self.id     = id
         self.zone   = zone
 
@@ -236,14 +243,16 @@ class Zone(object):  #{
         records = []
         if name and type != 'PTR':
             name = self.fqdn( name )
+        weight = norm_weight( weight )
 
         for boto_record in self.conn.get_all_rrsets(self.id):
             record = Record.from_boto_record( boto_record, zone=self )
-            record_name = self.fqdn( record.name )
+            record_name   = self.fqdn( record.name )
+            record_weight = norm_weight( record.weight )
             if  (record_name   == name   if name   else True)\
             and (record.type   == type   if type   else True)\
             and (record.ttl    == ttl    if ttl    else True)\
-            and (record.weight == weight if weight else True)\
+            and (record_weight == weight if weight else True)\
             and (record.id     == id     if id     else True):
                 records.append( record )
 
