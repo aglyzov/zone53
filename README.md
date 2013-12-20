@@ -123,3 +123,7 @@ for rec in zone.get_records( type='CNAME' ): rec.delete()
 for rec in zone.get_records( type='A' ):     rec.delete()
 zone.delete()
 ~~~
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/aglyzov/zone53/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
